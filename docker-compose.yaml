@@ -1,0 +1,35 @@
+services:
+  server:
+    image: postgrest/postgrest
+    ports:
+      - "3000:3000"
+    environment:
+      PGRST_DB_URI: postgres://authenticator:mysecretpassword@database:5432/postgres
+      PGRST_OPEN_API_SERVER_PROXY_URI: http://127.0.0.1:3000
+      PGRST_DB_SCHEMAS: "api"
+      PGRST_DB_ANON_ROLE: "web_anon"
+      PGRST_JWT_SECRET: "yWuSR0MhUEOL2Rm5TfnbzsY6N48KYedb"
+    depends_on:
+      - database
+
+  database:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - "./sql:/docker-entrypoint-initdb.d"
+  # Uncomment this if you want to persist the data.
+  #      - "./pgdata:/var/lib/postgresql/data"
+
+  swagger-ui:
+    container_name: swagger-ui
+    image: swaggerapi/swagger-ui:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - API_URL=http://localhost:3000/
+    restart: always
