@@ -1,0 +1,5 @@
+-- pgbench -n -c 15 -r -T 300 -h 127.0.0.1 -U queuedev -f reader.sql
+queue_database
+Password:
+transaction type: reader.sql
+scaling factor: 1

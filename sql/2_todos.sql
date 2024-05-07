@@ -1,11 +1,7 @@
 BEGIN;
 CREATE SCHEMA api;
 
-CREATE ROLE web_anon nologin;
 GRANT USAGE ON SCHEMA api TO web_anon;
-
-CREATE ROLE authenticator NOINHERIT LOGIN PASSWORD 'mysecretpassword';
-GRANT web_anon TO authenticator;
 
 CREATE TABLE api.todos
 (
